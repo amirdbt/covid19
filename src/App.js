@@ -8,7 +8,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, Switch, FormControlLabel,CircularProgress } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 
-
+import styles from "./App.module.css"
+import coronaImage from './images/corona.png'
 import { fetchData } from "./api/index";
 const Cards = React.lazy(() => import("./components/Cards/Cards"));
 const Chart  = React.lazy(() => import("./components/Chart/Chart"))
@@ -83,6 +84,7 @@ const useDarkMode = () => {
 };
 function Home() {
   const [data, setData] = useState([]);
+  const [country, setCountry] = useState('')
 
   useEffect(() => {
     fetchData().then((response) => {
@@ -90,6 +92,15 @@ function Home() {
       setData(data);
     });
   }, []);
+
+  const handleCountryChange  = async (country) =>{
+    fetchData(country).then(response=>{
+      console.log(response)
+      setData(response)
+      setCountry(country)
+    })
+    // console.log(country)
+  } 
 
   const [utheme, toggleDarkMode] = useDarkMode();
   const themeConfig = createMuiTheme(utheme);
@@ -117,9 +128,10 @@ function Home() {
         <main className={classes.content}>
           <div className={classes.toolbar}>
             <React.Suspense fallback={<CircularProgress />}>
+              <img  src={coronaImage} className={styles.image} alt="COVID-19" />
               <Cards data={data} />
-              <CountryPicker />
-              <Chart />
+              <CountryPicker handleCountryChange={handleCountryChange} />
+              <Chart data={data} country={country} />
             </React.Suspense>
           </div>
         </main>
