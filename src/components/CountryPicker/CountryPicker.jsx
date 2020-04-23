@@ -8,11 +8,9 @@ const CountryPicker = ({handleCountryChange}) => {
   useEffect(() => {
     fetchCountries().then((response) => {
       setFetchedCountries(response);
-      console.log(response);
     });
   }, [setFetchedCountries]);
 
-  console.log(fetchedCountries);
   return (
     <div>
       <FormControl className={styles.formControl}>

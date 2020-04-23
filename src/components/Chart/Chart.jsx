@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Typography } from "@material-ui/core";
 import { fetchDailyData } from "../../api/index";
 import { Line, Bar } from "react-chartjs-2";
 
@@ -10,7 +9,6 @@ const Chart = ({ data, country }) => {
   useEffect(() => {
     fetchDailyData().then((response) => {
       const data = response;
-      console.log(data);
       setDailyData(data);
     });
   }, []);
